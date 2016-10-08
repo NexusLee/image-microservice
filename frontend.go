@@ -15,13 +15,15 @@ var keyValueStoreAddress string
 var masterLocation string
 
 func main() {
+    fmt.Println(os.Args)
     if len(os.Args) < 2 {
         fmt.Println("Error: Too few arguments.")
         return
     }
     keyValueStoreAddress = os.Args[1]
-
+    fmt.Println(keyValueStoreAddress)
     response, err := http.Get("http://" + keyValueStoreAddress + "/get?key=masterAddress")
+    fmt.Println(response.StatusCode)
     if response.StatusCode != http.StatusOK {
         fmt.Println("Error: can't get master address.")
         fmt.Println(response.Body)
@@ -83,6 +85,7 @@ func handleTask(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(http.StatusBadRequest)
         fmt.Fprint(w, "Error: Only POST accepted")
     }
+}
 
 func handleCheckForReadiness(w http.ResponseWriter, r *http.Request) {
     if r.Method == http.MethodGet {

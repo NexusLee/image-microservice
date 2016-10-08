@@ -1,0 +1,1 @@
+docker run -it -p 8080:80 image-microservice sh -c "go run 3000/main.go && go run 3001/task.go && go run 3002/storage.go && go run 3003/worker.go && go run frontend.go '192.168.3.12:3000' '192.168.3.12:3001'"
