@@ -4,7 +4,10 @@ import (
     "os"
     "fmt"
     "net/http"
+    "io"
     "io/ioutil"
+    "net/url"
+    "encoding/json"
 )
 
 type Task struct {
@@ -19,7 +22,7 @@ func main() {
     if !registerInKVStore() {
         return
     }
-    keyValueStoreAddress = os.Args[2]
+    /*keyValueStoreAddress = os.Args[2]
 
     response, err := http.Get("http://" + keyValueStoreAddress + "/get?key=databaseAddress")
     if response.StatusCode != http.StatusOK {
@@ -45,7 +48,7 @@ func main() {
         fmt.Println(err)
         return
     }
-    storageLocation = string(data)
+    storageLocation = string(data)*/
 
     http.HandleFunc("/new", newImage)
     http.HandleFunc("/get", getImage)
