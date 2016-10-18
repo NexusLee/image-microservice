@@ -15,6 +15,7 @@ type Task struct {
     State int `json:"state"`
 }
 
+var keyValueStoreAddress string
 var databaseLocation string
 var storageLocation string
 
@@ -22,7 +23,7 @@ func main() {
     if !registerInKVStore() {
         return
     }
-    /*keyValueStoreAddress = os.Args[2]
+    keyValueStoreAddress = os.Args[2]
 
     response, err := http.Get("http://" + keyValueStoreAddress + "/get?key=databaseAddress")
     if response.StatusCode != http.StatusOK {
@@ -48,7 +49,7 @@ func main() {
         fmt.Println(err)
         return
     }
-    storageLocation = string(data)*/
+    storageLocation = string(data)
 
     http.HandleFunc("/new", newImage)
     http.HandleFunc("/get", getImage)
@@ -59,8 +60,13 @@ func main() {
 }
 
 func newImage(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(databaseLocation)
+    fmt.Println(storageLocation)
+    fmt.Println(w, "62行报错:", r)
+    fmt.Println(r.Method)
     if r.Method == http.MethodPost {
-        response, err := http.Post("http://" + databaseLocation + "/newTask", "text/plain", nil)
+        response, err := http.Post("http://" + databaseLocation + "/newTask", "image", nil)
+        //fmt.Println(response)
         if err != nil {
             w.WriteHeader(http.StatusBadRequest)
             fmt.Fprint(w, "Error:", err)
@@ -210,7 +216,7 @@ func registerInKVStore() bool {
         return false
     }
     masterAddress := os.Args[1] // The address of itself
-    keyValueStoreAddress := os.Args[2]
+    keyValueStoreAddress = os.Args[2]
 
     response, err := http.Post("http://" + keyValueStoreAddress + "/set?key=masterAddress&value=" + masterAddress, "", nil)
     if err != nil {

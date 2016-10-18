@@ -21,9 +21,7 @@ func main() {
         return
     }
     keyValueStoreAddress = os.Args[1]
-    fmt.Println(keyValueStoreAddress)
     response, err := http.Get("http://" + keyValueStoreAddress + "/get?key=masterAddress")
-    fmt.Println(response.StatusCode)
     if response.StatusCode != http.StatusOK {
         fmt.Println("Error: can't get master address.")
         fmt.Println(response.Body)
